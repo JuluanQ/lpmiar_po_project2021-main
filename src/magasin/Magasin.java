@@ -99,6 +99,7 @@ public class Magasin implements iStock, iClientele, iPanier {
         }
         client.add(nouveauClient);
         panier.put(nouveauClient,new Commande());
+        commandes.put(nouveauClient,new LinkedList<>());
     }
 
     @Override
@@ -176,7 +177,14 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public void terminerLaCommande(iClient client) throws ClientInconnuException {
+        List<Commande> arrayCmd = commandes.get(client);
+        if(!commandes.containsKey(client)) throw new ClientInconnuException();
 
+        Commande commandeEnCours = panier.get(client);
+        arrayCmd.add(commandeEnCours);
+        commandes.replace(client,arrayCmd);
+
+        panier.replace(client,new Commande());
     }
 
     @Override
