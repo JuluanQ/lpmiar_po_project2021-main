@@ -77,9 +77,7 @@ public class Magasin implements iStock, iClientele, iPanier {
     @Override
     public List<Map.Entry<iArticle, Integer>> listerStock() {
         List<Map.Entry<iArticle,Integer>> listeStock = new ArrayList<>();
-        List<iArticle> listeArticle = new ArrayList<>(stock.keySet());
-        listeArticle.sort(iArticle.COMPARATEUR_NOM);
-        for(iArticle a : listeArticle){
+        for(iArticle a : this.listerArticlesEnStockParNom()){
             Map.Entry<iArticle, Integer> entry = new AbstractMap.SimpleEntry<>(a, stock.get(a));
             listeStock.add(entry);
         }
