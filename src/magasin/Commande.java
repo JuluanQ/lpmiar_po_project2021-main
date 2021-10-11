@@ -1,12 +1,8 @@
 package magasin;
 
-import magasin.exceptions.ArticleHorsPanierException;
-import magasin.exceptions.QuantiteNegativeOuNulleException;
-import magasin.exceptions.QuantiteSuppPanierException;
+import magasin.exceptions.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * défini une commande, c'est-à-dire des articles associés à leur quantité commandée
@@ -38,7 +34,10 @@ public class Commande implements Comparable<Commande> {
      */
     public void ajout(int quantite, iArticle articleCommande)
             throws QuantiteNegativeOuNulleException {
-        // TODO
+        if(quantite <= 0 ){
+            throw new QuantiteNegativeOuNulleException();
+        }
+        commande.put(articleCommande,quantite);
     }
 
     /**
@@ -53,7 +52,12 @@ public class Commande implements Comparable<Commande> {
     public void retirer(int quantite, iArticle articleCommande)
             throws QuantiteNegativeOuNulleException,
             QuantiteSuppPanierException, ArticleHorsPanierException {
-        // TODO
+        if(quantite<=0)throw new QuantiteNegativeOuNulleException();
+        Integer qtt = commande.get(articleCommande);
+        if(qtt==null)throw new ArticleHorsPanierException();
+        if(quantite>qtt)throw new QuantiteSuppPanierException();
+        qtt -= quantite;
+        commande.replace(articleCommande, qtt);
     }
 
     /**
@@ -63,8 +67,9 @@ public class Commande implements Comparable<Commande> {
      * @return
      */
     public List<iArticle> listerArticlesParNom() {
-        // TODO
-        return null;
+        List<iArticle> listeArticle = new ArrayList<>(commande.keySet());
+        listeArticle.sort(iArticle.COMPARATEUR_NOM);
+        return listeArticle;
     }
 
     /**
@@ -74,8 +79,9 @@ public class Commande implements Comparable<Commande> {
      * @return
      */
     public List<iArticle> listerArticlesParReference() {
-        // TODO
-        return null;
+        List<iArticle> listeArticle = new ArrayList<>(commande.keySet());
+        listeArticle.sort(iArticle.COMPARATEUR_REFERENCE);
+        return listeArticle;
     }
 
     /**
@@ -85,8 +91,12 @@ public class Commande implements Comparable<Commande> {
      * @return
      */
     public List<Map.Entry<iArticle, Integer>> listerCommande() {
-        // TODO
-        return null;
+        List<Map.Entry<iArticle,Integer>> listeStock = new ArrayList<>();
+        for(iArticle a : this.listerArticlesParNom()){
+            Map.Entry<iArticle, Integer> entry = new AbstractMap.SimpleEntry<>(a, commande.get(a));
+            listeStock.add(entry);
+        }
+        return listeStock;
     }
 
 
@@ -97,8 +107,7 @@ public class Commande implements Comparable<Commande> {
      * @return la quantité commmandée
      */
     public int quantite(iArticle article) {
-        // TODO
-        return -1;
+        return commande.get(article);
     }
 
     /**
