@@ -4,6 +4,7 @@ import magasin.exceptions.ArticleHorsPanierException;
 import magasin.exceptions.QuantiteNegativeOuNulleException;
 import magasin.exceptions.QuantiteSuppPanierException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +14,10 @@ import java.util.Map;
 
 public class Commande implements Comparable<Commande> {
 
-    // TODO
+    public HashMap<iArticle,Integer> commande;
 
     public Commande() {
-        // TODO
+        this.commande = new HashMap<>();
     }
 
     /**
@@ -25,8 +26,7 @@ public class Commande implements Comparable<Commande> {
      * @return
      */
     public boolean estVide() {
-        // TODO
-        return false;
+        return commande.isEmpty();
     }
 
     /**
