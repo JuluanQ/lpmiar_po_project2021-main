@@ -9,10 +9,12 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     private Map<iArticle, Integer> stock;
     private List<iClient> client;
+    private Map<iClient, Commande> panier;
 
     public Magasin() {
         this.stock = new HashMap<>();
         this.client = new ArrayList<>();
+        this.panier = new HashMap<>();
     }
 
 
@@ -98,8 +100,8 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public List<iClient> listerLesClientsParId() {
-        // TODO
-        return null;
+        client.sort(iClient.COMPARATEUR_ID);
+        return client;
     }
 
 
@@ -116,7 +118,13 @@ public class Magasin implements iStock, iClientele, iPanier {
             throws ClientInconnuException,
             QuantiteNegativeOuNulleException,
             ArticleHorsStockException, QuantiteEnStockInsuffisanteException {
-        // TODO
+        if(!listerLesClientsParId().contains(client)) throw new ClientInconnuException();
+        if(quantite<=0)throw new QuantiteNegativeOuNulleException();
+        this.retirerDuStock(quantite,article);
+        /*
+        panier.get(client).put(article,quantite);
+        */
+
     }
 
     @Override
@@ -125,7 +133,15 @@ public class Magasin implements iStock, iClientele, iPanier {
             QuantiteNegativeOuNulleException,
             QuantiteSuppPanierException, ArticleHorsPanierException,
             ArticleHorsStockException {
-        // TODO
+        if(!listerLesClientsParId().contains(client)) throw new ClientInconnuException();
+        if(quantite<=0)throw new QuantiteNegativeOuNulleException();
+        /*
+        Integer qttArticle =panier.get(client).get(article);
+        if(quantite>qttArticle) throw new QuantiteSuppPanierException();
+
+        panier.get(client).remove(article,quantite);
+        this.reapprovisionnerStock(article, quantite);
+        */
     }
 
     @Override

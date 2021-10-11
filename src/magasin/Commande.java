@@ -116,8 +116,11 @@ public class Commande implements Comparable<Commande> {
      * @return
      */
     public double montant() {
-        // TODO
-        return -1.0;
+        double montant = 0.0;
+        for(iArticle a: commande.keySet()){
+            montant+= a.prix()*commande.get(a);
+        }
+        return montant;
     }
 
     @Override
