@@ -20,7 +20,15 @@ public class Magasin implements iStock, iClientele, iPanier {
     @Override
     public void referencerAuStock(iArticle nouvelArticle, int quantiteNouvelle)
             throws ArticleDejaEnStockException, QuantiteNegativeException {
-        // TODO
+        if(quantiteNouvelle < 0){
+            throw new QuantiteNegativeException();
+        }
+
+        if(stock.containsKey(nouvelArticle)){
+            throw new ArticleDejaEnStockException();
+        }
+        Integer qtt = stock.get(nouvelArticle);
+        stock.put(nouvelArticle,qtt);
     }
 
 
