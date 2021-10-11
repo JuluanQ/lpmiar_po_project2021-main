@@ -153,8 +153,9 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public double consulterMontantPanier(iClient client) throws ClientInconnuException {
-        // TODO
-        return -1.0;
+        Commande cmd = panier.get(client);
+        if(cmd ==null) throw new ClientInconnuException();
+        return cmd.montant();
     }
 
     @Override
