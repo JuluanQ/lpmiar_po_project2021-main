@@ -161,17 +161,17 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public void viderPanier(iClient client) throws ClientInconnuException {
-        /*Commande cmd = panier.get(client);
+        Commande cmd = panier.get(client);
         if(cmd == null)throw new ClientInconnuException();
-        Set<iArticle> articles = cmd.commande.keySet();
-        for(iArticle a : articles){
+
+        for(iArticle a : cmd.listerArticlesParNom()){
             try {
                 reapprovisionnerStock(a,cmd.quantite(a));
                 cmd.commande.remove(a);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-        }*/
+        }
     }
 
     @Override
