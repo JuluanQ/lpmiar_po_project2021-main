@@ -27,8 +27,8 @@ public class Magasin implements iStock, iClientele, iPanier {
         if(stock.containsKey(nouvelArticle)){
             throw new ArticleDejaEnStockException();
         }
-        Integer qtt = stock.get(nouvelArticle);
-        stock.put(nouvelArticle,qtt);
+        stock.put(nouvelArticle,quantiteNouvelle);
+        //
     }
 
 
@@ -44,7 +44,8 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public int consulterQuantiteEnStock(iArticle articleRecherche) throws ArticleHorsStockException {
-        Integer qtt =stock.get(articleRecherche);
+        Integer qtt = stock.get(articleRecherche);
+        System.out.println(qtt);
         if(qtt==null) throw new ArticleHorsStockException();
         return qtt;
     }
@@ -86,7 +87,7 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public void enregistrerNouveauClient(iClient nouveauClient) throws ClientDejaEnregistreException {
-        // TODO
+
     }
 
     @Override
