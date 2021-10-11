@@ -2,9 +2,7 @@ package magasin;
 
 import magasin.exceptions.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Magasin implements iStock, iClientele, iPanier {
 
@@ -28,7 +26,11 @@ public class Magasin implements iStock, iClientele, iPanier {
     @Override
     public void reapprovisionnerStock(iArticle articleMaj, int quantiteAjoutee)
             throws ArticleHorsStockException, QuantiteNegativeOuNulleException {
-        // TODO
+        if(quantiteAjoutee <= 0) throw new QuantiteNegativeOuNulleException();
+        Integer qtt = stock.get(articleMaj);
+        if(qtt==null) throw new ArticleHorsStockException();
+        qtt += quantiteAjoutee;
+        stock.replace(articleMaj,qtt);
     }
 
     @Override
