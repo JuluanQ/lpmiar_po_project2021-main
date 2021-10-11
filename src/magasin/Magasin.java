@@ -8,10 +8,11 @@ import java.util.*;
 public class Magasin implements iStock, iClientele, iPanier {
 
     private Map<iArticle, Integer> stock;
-
+    private List<iClient> client;
 
     public Magasin() {
         this.stock = new HashMap<>();
+        this.client = new ArrayList<>();
     }
 
 
@@ -89,7 +90,10 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public void enregistrerNouveauClient(iClient nouveauClient) throws ClientDejaEnregistreException {
-
+        if(client.contains(nouveauClient)){
+            throw new ClientDejaEnregistreException();
+        }
+        client.add(nouveauClient);
     }
 
     @Override
