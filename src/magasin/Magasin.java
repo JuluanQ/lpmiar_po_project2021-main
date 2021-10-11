@@ -4,6 +4,7 @@ import magasin.exceptions.*;
 
 import java.util.*;
 
+
 public class Magasin implements iStock, iClientele, iPanier {
 
     private Map<iArticle, Integer> stock;
@@ -35,33 +36,41 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public int consulterQuantiteEnStock(iArticle articleRecherche) throws ArticleHorsStockException {
-        // TODO
-        return -1;
+        Integer qtt =stock.get(articleRecherche);
+        if(qtt==null) throw new ArticleHorsStockException();
+        return qtt;
     }
 
     @Override
     public void retirerDuStock(int quantiteRetiree, iArticle articleMaj)
             throws ArticleHorsStockException, QuantiteNegativeOuNulleException, QuantiteEnStockInsuffisanteException {
-        // TODO
+        if(quantiteRetiree<=0)throw new QuantiteNegativeOuNulleException();
+        Integer qtt = stock.get(articleMaj);
+        if(qtt==null)throw new ArticleHorsStockException();
+        if(quantiteRetiree>qtt)throw new QuantiteEnStockInsuffisanteException();
+        qtt -= quantiteRetiree;
+        stock.replace(articleMaj, qtt);
     }
 
 
     @Override
     public List<iArticle> listerArticlesEnStockParNom() {
-        // TODO
-        return null;
+        List<iArticle> listeArticle = new ArrayList<>(stock.keySet());
+        listeArticle.sort(iArticle.COMPARATEUR_NOM);
+        return listeArticle;
     }
 
     @Override
     public List<iArticle> listerArticlesEnStockParReference() {
-        // TODO
-        return null;
+        List<iArticle> listeArticle = new ArrayList<>(stock.keySet());
+        listeArticle.sort(iArticle.COMPARATEUR_REFERENCE);
+        return listeArticle;
     }
 
     @Override
     public List<Map.Entry<iArticle, Integer>> listerStock() {
-        // TODO
-        return null;
+        List<Map.Entry<iArticle, Integer>> listeStock = new ArrayList<>(stock.entrySet());
+        return listeStock;
     }
 
     // iClientele
