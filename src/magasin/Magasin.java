@@ -28,7 +28,6 @@ public class Magasin implements iStock, iClientele, iPanier {
             throw new ArticleDejaEnStockException();
         }
         stock.put(nouvelArticle,quantiteNouvelle);
-        //
     }
 
 
@@ -45,7 +44,6 @@ public class Magasin implements iStock, iClientele, iPanier {
     @Override
     public int consulterQuantiteEnStock(iArticle articleRecherche) throws ArticleHorsStockException {
         Integer qtt = stock.get(articleRecherche);
-        System.out.println(qtt);
         if(qtt==null) throw new ArticleHorsStockException();
         return qtt;
     }
@@ -78,7 +76,13 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public List<Map.Entry<iArticle, Integer>> listerStock() {
-        List<Map.Entry<iArticle, Integer>> listeStock = new ArrayList<>(stock.entrySet());
+        List<Map.Entry<iArticle,Integer>> listeStock = new ArrayList<>();
+        List<iArticle> listeArticle = new ArrayList<>(stock.keySet());
+        listeArticle.sort(iArticle.COMPARATEUR_NOM);
+        for(iArticle a : listeArticle){
+            Map.Entry<iArticle, Integer> entry = new AbstractMap.SimpleEntry<>(a, stock.get(a));
+            listeStock.add(entry);
+        }
         return listeStock;
     }
 
