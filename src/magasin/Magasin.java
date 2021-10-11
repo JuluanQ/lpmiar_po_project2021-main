@@ -137,13 +137,18 @@ public class Magasin implements iStock, iClientele, iPanier {
             ArticleHorsStockException {
         if(!listerLesClientsParId().contains(client)) throw new ClientInconnuException();
         if(quantite<=0)throw new QuantiteNegativeOuNulleException();
-        /*
-        Integer qttArticle =panier.get(client).get(article);
+        if(!panier.get(client).commande.containsKey(article))throw new ArticleHorsPanierException();
+
+        Integer qttArticle = panier.get(client).quantite(article);
         if(quantite>qttArticle) throw new QuantiteSuppPanierException();
 
-        panier.get(client).remove(article,quantite);
+        panier.get(client).retirer(quantite,article);
         this.reapprovisionnerStock(article, quantite);
-        */
+
+        if(panier.get(client).quantite(article)<=0){
+            panier.get(client).commande.remove(article);
+        }
+
     }
 
     @Override
