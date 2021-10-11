@@ -10,12 +10,13 @@ public class Magasin implements iStock, iClientele, iPanier {
     private Map<iArticle, Integer> stock;
     private List<iClient> client;
     private Map<iClient, Commande> panier;
+    private Map<iClient, List<Commande>> commandes;
 
     public Magasin() {
         this.stock = new HashMap<>();
         this.client = new ArrayList<>();
         this.panier = new HashMap<>();
-
+        this.commandes = new HashMap<>();
     }
 
 
@@ -160,24 +161,40 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public void viderPanier(iClient client) throws ClientInconnuException {
-        // TODO
+        /*Commande cmd = panier.get(client);
+        if(cmd == null)throw new ClientInconnuException();
+        Set<iArticle> articles = cmd.commande.keySet();
+        for(iArticle a : articles){
+            try {
+                reapprovisionnerStock(a,cmd.quantite(a));
+                cmd.commande.remove(a);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }*/
     }
 
     @Override
     public void terminerLaCommande(iClient client) throws ClientInconnuException {
-        // TODO
+
     }
 
     @Override
     public List<Commande> listerCommandesTerminees(iClient client) throws ClientInconnuException {
-        // TODO
-        return null;
+        List<Commande> arrayCmd = commandes.get(client);
+        if(arrayCmd == null)throw new ClientInconnuException();
+        return arrayCmd;
     }
 
     @Override
     public double consulterMontantTotalCommandes(iClient client) throws ClientInconnuException {
-        // TODO
-        return -1.0;
+        List<Commande> arrayCmd = commandes.get(client);
+        if(!commandes.containsKey(client))throw new ClientInconnuException();
+        double montant = 0.0;
+        for (Commande c: arrayCmd){
+            montant += c.montant();
+        }
+        return montant;
     }
 
 
