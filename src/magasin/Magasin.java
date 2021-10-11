@@ -2,15 +2,17 @@ package magasin;
 
 import magasin.exceptions.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Magasin implements iStock, iClientele, iPanier {
 
-    // TODO
+    private Map<iArticle, Integer> stock;
+
 
     public Magasin() {
-        // TODO
+        this.stock = new HashMap<>();
     }
 
 
