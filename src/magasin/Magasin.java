@@ -15,6 +15,7 @@ public class Magasin implements iStock, iClientele, iPanier {
         this.stock = new HashMap<>();
         this.client = new ArrayList<>();
         this.panier = new HashMap<>();
+
     }
 
 
@@ -96,6 +97,7 @@ public class Magasin implements iStock, iClientele, iPanier {
             throw new ClientDejaEnregistreException();
         }
         client.add(nouveauClient);
+        panier.put(nouveauClient,new Commande());
     }
 
     @Override
@@ -109,8 +111,9 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public Commande consulterPanier(iClient client) throws ClientInconnuException {
-        // TODO
-        return null;
+        Commande commande = panier.get(client);
+        if(commande==null)throw new ClientInconnuException();
+        return commande;
     }
 
     @Override
@@ -120,10 +123,9 @@ public class Magasin implements iStock, iClientele, iPanier {
             ArticleHorsStockException, QuantiteEnStockInsuffisanteException {
         if(!listerLesClientsParId().contains(client)) throw new ClientInconnuException();
         if(quantite<=0)throw new QuantiteNegativeOuNulleException();
-        this.retirerDuStock(quantite,article);
-        /*
-        panier.get(client).put(article,quantite);
-        */
+
+        retirerDuStock(quantite,article);
+        panier.get(client).ajout(quantite,article);
 
     }
 

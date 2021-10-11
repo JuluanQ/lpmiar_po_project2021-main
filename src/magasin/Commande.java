@@ -37,7 +37,14 @@ public class Commande implements Comparable<Commande> {
         if(quantite <= 0 ){
             throw new QuantiteNegativeOuNulleException();
         }
-        commande.put(articleCommande,quantite);
+        if(commande.containsKey(articleCommande)){
+            Integer qtt = commande.get(articleCommande);
+            qtt+=quantite;
+            commande.replace(articleCommande, qtt);
+        }
+        else{
+            commande.put(articleCommande,quantite);
+        }
     }
 
     /**
