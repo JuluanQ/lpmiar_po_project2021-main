@@ -12,7 +12,7 @@ public class DatabaseProduits {
     }
 
     /** Rempli la liste de produit à l'aide d'une API
-
+        Wallah je cherche des API cool c cho
      */
     public List<Produit> makeDataBase(int nbProduits) {
         for(int i = 0; i < nbProduits; i++){
