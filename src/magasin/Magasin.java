@@ -94,9 +94,7 @@ public class Magasin implements iStock, iClientele, iPanier {
 
     @Override
     public void enregistrerNouveauClient(iClient nouveauClient) throws ClientDejaEnregistreException {
-        if(client.contains(nouveauClient)){
-            throw new ClientDejaEnregistreException();
-        }
+        if(client.contains(nouveauClient))throw new ClientDejaEnregistreException();
         client.add(nouveauClient);
         panier.put(nouveauClient,new Commande());
         commandes.put(nouveauClient,new LinkedList<>());
@@ -178,7 +176,7 @@ public class Magasin implements iStock, iClientele, iPanier {
     @Override
     public void terminerLaCommande(iClient client) throws ClientInconnuException {
         List<Commande> arrayCmd = commandes.get(client);
-        if(!commandes.containsKey(client)) throw new ClientInconnuException();
+        if(arrayCmd == null) throw new ClientInconnuException();
 
         Commande commandeEnCours = panier.get(client);
         arrayCmd.add(commandeEnCours);
@@ -197,7 +195,7 @@ public class Magasin implements iStock, iClientele, iPanier {
     @Override
     public double consulterMontantTotalCommandes(iClient client) throws ClientInconnuException {
         List<Commande> arrayCmd = commandes.get(client);
-        if(!commandes.containsKey(client))throw new ClientInconnuException();
+        if(arrayCmd==null)throw new ClientInconnuException();
         double montant = 0.0;
         for (Commande c: arrayCmd){
             montant += c.montant();

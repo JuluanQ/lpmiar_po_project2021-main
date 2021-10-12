@@ -38,4 +38,10 @@ public class Produit implements iArticle{
     public double prix() {
         return prix;
     }
+
+    @Override
+    public String toString() {
+        return "| "+nom+" : "+prix+"€ |\n"+
+                "---------------------\n";
+    }
 }
