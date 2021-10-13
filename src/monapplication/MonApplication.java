@@ -6,6 +6,8 @@ import mesproduits.Client;
 import mesproduits.DatabaseProduits;
 import mesproduits.Produit;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 //import mesproduits.*;
 
@@ -36,9 +38,13 @@ public class MonApplication {
         System.out.println("client : devenir un client\n" +
                 "stock : consulte les stock du magasin\n" +
                 "ajoutPanier : ajouter un article au panier\n" +
+                "suppPanier : supprimer un article du panier\n" +
                 "consultPanier : consulter son panier\n" +
+                "consultMontant : consulter le montant du panier\n" +
+                "viderPanier : vide le panier en cours\n" +
+                "termCommande : termine la commande et valide le panier\n" +
                 "help : donne l'ensemble des commandes disponibles\n" +
-                "quit : quitter l'application");
+                "quit : quitter l'application\n");
         System.out.printf("Veuillez écrire ce que vous souhaitez faire : ");
         String cmd = sc.next();
         Client client = new Client();
@@ -62,7 +68,6 @@ public class MonApplication {
                     String nomProduit = sc.next();
                     System.out.printf("Quel quantité souhaitez vous ajouter ? : ");
                     int nbProduit = sc.nextInt();
-                    Produit produit = new Produit(nomProduit);
                     try{
                         for(Produit p : databaseProduits.getListProduits()){
                             if(p.nom().equals(nomProduit)){
@@ -73,21 +78,69 @@ public class MonApplication {
                         e.printStackTrace();
                     }
                     break;
+                case "suppPanier" :
+                    System.out.printf("Quel est le nom du produit que vous souhaitez supprimer ? : ");
+                    String nomProduitsupp = sc.next();
+                    System.out.printf("Quel quantité souhaitez vous supprimer ? : ");
+                    int nbProduitsupp = sc.nextInt();
+                    try{
+                        for(Produit p : databaseProduits.getListProduits()){
+                            if(p.nom().equals(nomProduitsupp)){
+                                magasin.supprimerDuPanier(client,nbProduitsupp,p);
+                            }
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
                 case "consultPanier":
                     System.out.println("PANIER :");
                     try{
-                        System.out.println(magasin.consulterPanier(client).listerArticlesParNom());
+                        Commande commande = magasin.consulterPanier(client);
+                        for (iArticle a : commande.listerArticlesParNom()){
+                            System.out.println(""+a.nom()+" : "+a.prix()+"€ | x"+commande.quantite(a));
+                        }
                     }catch(Exception e){
                         System.out.println(e.getMessage());
                     }
                     break;
+                case "consultMontant" :
+                    try{
+                        System.out.print("Montant panier :"+magasin.consulterMontantPanier(client)+"\n");
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                case "viderPanier" :
+                    System.out.println("Vidage du panier...");
+                    try{
+                        magasin.viderPanier(client);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println("Panier vidé !");
+                    break;
+                case "termCommande":
+                    System.out.println("Terminaison de la commande...");
+                    try{
+                        magasin.terminerLaCommande(client);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println("Commande terminée !");
+                    break;
+
                 case "help":
                     System.out.println("client : devenir un client\n" +
                             "stock : consulte les stock du magasin\n" +
                             "ajoutPanier : ajouter un article au panier\n" +
+                            "suppPanier : supprimer un article du panier\n" +
                             "consultPanier : consulter son panier\n" +
+                            "consultMontant : consulter le montant du panier\n" +
+                            "viderPanier : vide le panier en cours\n" +
+                            "termCommande : termine la commande et valide le panier\n" +
                             "help : donne l'ensemble des commandes disponibles\n" +
-                            "quit : quitter l'application");
+                            "quit : quitter l'application\n");
                     break;
                 case "quit":
                     quit = true;
