@@ -1,8 +1,7 @@
 package monapplication;
 
 import magasin.*;
-import magasin.exceptions.ArticleDejaEnStockException;
-import magasin.exceptions.QuantiteNegativeException;
+import magasin.exceptions.*;
 import mesproduits.Client;
 import mesproduits.DatabaseProduits;
 import mesproduits.Produit;
@@ -51,7 +50,7 @@ public class MonApplication {
                 case "client":
                     try{
                         magasin.enregistrerNouveauClient(client);
-                    }catch (Exception e){
+                    }catch (ClientDejaEnregistreException e){
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -71,7 +70,7 @@ public class MonApplication {
                             }
                         }
                     }catch (Exception e){
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
                     }
                     break;
                 case "consultPanier":
