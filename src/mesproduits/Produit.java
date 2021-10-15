@@ -2,7 +2,7 @@ package mesproduits;
 import magasin.*;
 
 
-abstract public class Produit implements iArticle{
+ public class Produit implements iArticle{
 
     private static int nbReference = 1;
     private int reference;
