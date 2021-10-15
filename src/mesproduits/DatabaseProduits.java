@@ -23,7 +23,7 @@ public class DatabaseProduits {
             //Utilisation de l'API ici
             // TODO
 
-            listProduits.add(new Produit(nom, desc, prix));
+            //listProduits.add(new Produit(nom, desc, prix));
         }
     }
 
